@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text } from 'react-native';
 import styled from 'styled-components/native'
+import { Foundation } from '@expo/vector-icons';
 
 import { GrayText, Button } from '../components'
 
@@ -9,15 +10,24 @@ const PatientScreen = () => (
     <PatientFullName>Марина Алмазова</PatientFullName>
     <GrayText>+7 (999) 111-22-33</GrayText>
     <PatientButtons>
-      <Button>Формула зубов</Button>
-      <PhoneButton>P</PhoneButton>
+      <FormulaButtonView>
+        <Button>Формула зубов</Button>
+      </FormulaButtonView>
+      <PhoneButtonView>
+        <Button color="green">
+          <Foundation name="telephone" size={22} color="white" />
+        </Button>
+      </PhoneButtonView>
     </PatientButtons>
   </Container>
 )
 
-const PhoneButton = styled(Button)`
-  background-color: #84d269;
-  height: 45px;
+const FormulaButtonView = styled.View`
+  flex: 1;
+`;
+
+const PhoneButtonView = styled.View`
+  margin-left: 10px;
   width: 45px;
 `;
 
