@@ -83,22 +83,31 @@ const DATA = [
   }
 ]
 
-const HomeScreen = () => {
-  return (
-    <Container>
-      <SectionList
-        sections={DATA}
-        keyExtractor={(item, index) => index}
-        renderItem={({ item }) => <Appointment {...item} />}
-        renderSectionHeader={({ section: { title } }) => (
-          <SectionTitle>{title}</SectionTitle>
-        )}
-      />
-      <PlusButton>
-        <Ionicons name="ios-add" size={36} color="white" />
-      </PlusButton>
-    </Container>
-  )
+const HomeScreen = ({ navigation }) => (
+  <Container>
+    <SectionList
+      sections={DATA}
+      keyExtractor={(item, index) => index}
+      renderItem={({ item }) => (
+        <Appointment navigate={navigation.navigate} {...item} />
+      )}
+      renderSectionHeader={({ section: { title } }) => (
+        <SectionTitle>{title}</SectionTitle>
+      )}
+    />
+    <PlusButton>
+      <Ionicons name="ios-add" size={36} color="white" />
+    </PlusButton>
+  </Container>
+);
+
+HomeScreen.navigationOptions = {
+  title: 'Пациенты',
+  headerTintColor: '#2A86FF',
+  headerStyle: {
+    elevation: 0.8,
+    shadowOpacity: 0.8
+  }
 }
 
 const PlusButton = styled.TouchableOpacity`
@@ -119,7 +128,6 @@ const PlusButton = styled.TouchableOpacity`
 
 const Container = styled.View`
   flex: 1;
-  margin-top: 30px;
 `;
 
 export default HomeScreen
