@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, SectionList } from 'react-native';
+import { SectionList } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import styled from 'styled-components/native'
 
@@ -11,9 +11,10 @@ const DATA = [
     data: [
       {
         time: '15:30',
-        active: true,
+        active: 'true',
         diagnosis: 'пульпит',
         user: {
+          phone: '+7 (999) 748-22-40',
           fullname: 'Вася Пупкин',
           avatar: 'http://f4.24open.ru/SjgrfT1Nnp.jpg'
         }
@@ -22,6 +23,7 @@ const DATA = [
         time: '18:00',
         diagnosis: 'удаление зуба',
         user: {
+          phone: '+7 (999) 112-33-44',
           fullname: 'Иван Иванов',
           avatar: 'https://i.ytimg.com/vi/tmW-9sFy9mw/maxresdefault.jpg'
         }
@@ -30,6 +32,7 @@ const DATA = [
         time: '15:30',
         diagnosis: 'пульпит',
         user: {
+          phone: '+7 (999) 331-22-40',
           fullname: 'Вася Пупкин',
           avatar: 'http://f4.24open.ru/SjgrfT1Nnp.jpg'
         }
@@ -38,6 +41,7 @@ const DATA = [
         time: '18:00',
         diagnosis: 'удаление зуба',
         user: {
+          phone: '+7 (999) 748-22-40',
           fullname: 'Иван Иванов',
           avatar: 'https://i.ytimg.com/vi/tmW-9sFy9mw/maxresdefault.jpg'
         }
@@ -51,6 +55,7 @@ const DATA = [
         time: '15:30',
         diagnosis: 'пульпит',
         user: {
+          phone: '+7 (999) 748-22-40',
           fullname: 'Вася Пупкин',
           avatar: 'http://f4.24open.ru/SjgrfT1Nnp.jpg'
         }
@@ -59,6 +64,7 @@ const DATA = [
         time: '18:00',
         diagnosis: 'удаление зуба',
         user: {
+          phone: '+7 (999) 748-22-40',
           fullname: 'Иван Иванов',
           avatar: 'https://i.ytimg.com/vi/tmW-9sFy9mw/maxresdefault.jpg'
         }
@@ -67,6 +73,7 @@ const DATA = [
         time: '15:30',
         diagnosis: 'пульпит',
         user: {
+          phone: '+7 (999) 748-22-40',
           fullname: 'Вася Пупкин',
           avatar: 'http://f4.24open.ru/SjgrfT1Nnp.jpg'
         }
@@ -75,6 +82,7 @@ const DATA = [
         time: '18:00',
         diagnosis: 'удаление зуба',
         user: {
+          phone: '+7 (999) 748-22-40',
           fullname: 'Иван Иванов',
           avatar: 'https://i.ytimg.com/vi/tmW-9sFy9mw/maxresdefault.jpg'
         }
@@ -89,7 +97,7 @@ const HomeScreen = ({ navigation }) => (
       sections={DATA}
       keyExtractor={(item, index) => index}
       renderItem={({ item }) => (
-        <Appointment navigate={navigation.navigate} {...item} />
+        <Appointment navigate={navigation.navigate} item={item} />
       )}
       renderSectionHeader={({ section: { title } }) => (
         <SectionTitle>{title}</SectionTitle>
@@ -121,9 +129,9 @@ const PlusButton = styled.TouchableOpacity`
   right: 25px;
   bottom: 25px;
   shadow-color: #2a86ff;
-  shadow-opacity: 0.7;
-  shadow-radius: 3.5;
   elevation: 4;
+  shadow-opacity: 0.4;
+  shadow-radius: 3.5px;
 `;
 
 const Container = styled.View`

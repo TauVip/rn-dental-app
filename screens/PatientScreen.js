@@ -1,26 +1,90 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { View, Text } from 'react-native';
 import styled from 'styled-components/native'
-import { Foundation } from '@expo/vector-icons';
+import { Foundation, Ionicons } from '@expo/vector-icons';
 
-import { GrayText, Button } from '../components'
+import { GrayText, Button, Badge } from '../components'
 
-const PatientScreen = () => (
-  <Container>
-    <PatientFullName>Марина Алмазова</PatientFullName>
-    <GrayText>+7 (999) 111-22-33</GrayText>
-    <PatientButtons>
-      <FormulaButtonView>
-        <Button>Формула зубов</Button>
-      </FormulaButtonView>
-      <PhoneButtonView>
-        <Button color="green">
-          <Foundation name="telephone" size={22} color="white" />
-        </Button>
-      </PhoneButtonView>
-    </PatientButtons>
-  </Container>
+const PatientScreen = ({ navigation }) => (
+  <View style={{ flex: 1 }}>
+    <PatientDetails>
+      <PatientFullName>{ navigation.getParam('user', {}).fullname }</PatientFullName>
+      <GrayText>{ navigation.getParam('user', {}).phone }</GrayText>
+      <PatientButtons>
+        <FormulaButtonView>
+          <Button>Формула зубов</Button>
+        </FormulaButtonView>
+        <PhoneButtonView>
+          <Button color="#84D269">
+            <Foundation name="telephone" size={22} color="white" />
+          </Button>
+        </PhoneButtonView>
+      </PatientButtons>
+    </PatientDetails>
+
+    <PatientAppointments>
+      <Container>
+        <AppointmentCard>
+          <AppointmentCardRow>
+            <Ionicons name="md-medical" size={16} color="#A3A3A3" />
+            <AppointmentCardLabel>
+              Зуб: <Text style={{ fontWeight: '600' }}>12</Text>
+            </AppointmentCardLabel>
+          </AppointmentCardRow>
+          <AppointmentCardRow>
+            <Foundation name="clipboard-notes" size={16} color="#A3A3A3" />
+            <AppointmentCardLabel>
+              Диагноз: <Text style={{ fontWeight: '600' }}>пульпит</Text>
+            </AppointmentCardLabel>
+          </AppointmentCardRow>
+          <AppointmentCardRow 
+            style={{ marginTop: 15, justifyContent: 'space-between' }}
+          >
+            <Badge style={{ width: 155 }} active>
+              11.10.2019 - 15:40
+            </Badge>
+            <Badge color="green">1500 P</Badge>
+          </AppointmentCardRow>
+        </AppointmentCard>
+      </Container>
+    </PatientAppointments>
+  </View>
 )
+
+const AppointmentCardLabel = styled.Text`
+  font-size: 16px;
+  margin-left: 10px;
+`;
+
+const AppointmentCardRow = styled.View`
+  flex-direction: row;
+  align-items: center;
+  margin-top: 3.5px;
+  margin-bottom: 3.5px;
+`;
+
+const AppointmentCard = styled.View`
+  shadow-color: grey;
+  elevation: 0.5;
+  shadow-opacity: 0.4;
+  shadow-radius: 10px;
+  padding: 20px 25px;
+  border-radius: 10px;
+`;
+
+const Container = styled.View`
+  padding: 25px;
+  flex: 1;
+`;
+
+const PatientDetails = styled(Container)`
+  flex: 0.3;
+`;
+
+const PatientAppointments = styled.View`
+  flex: 1;
+  background: #f8fafd;
+`;
 
 const FormulaButtonView = styled.View`
   flex: 1;
@@ -41,10 +105,6 @@ const PatientFullName = styled.Text`
   font-size: 24px;
   line-height: 30px;
   margin-bottom: 3px;
-`;
-
-const Container = styled.View`
-  padding: 25px;
 `;
 
 PatientScreen.navigationOptions = {
