@@ -19,5 +19,3 @@ const AppNavigator = createStackNavigator(
 )
 
 export default createAppContainer(AppNavigator);
-
-// 2:18:03 / 3:08:40

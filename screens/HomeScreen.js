@@ -1,113 +1,38 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
 import { SectionList } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import styled from 'styled-components/native'
+import styled from 'styled-components/native';
+import axios from 'axios';
 
 import { Appointment, SectionTitle } from '../components'
 
-const DATA = [
-  {
-    title: '14 сентября',
-    data: [
-      {
-        time: '15:30',
-        active: 'true',
-        diagnosis: 'пульпит',
-        user: {
-          phone: '+7 (999) 748-22-40',
-          fullname: 'Вася Пупкин',
-          avatar: 'http://f4.24open.ru/SjgrfT1Nnp.jpg'
-        }
-      },
-      {
-        time: '18:00',
-        diagnosis: 'удаление зуба',
-        user: {
-          phone: '+7 (999) 112-33-44',
-          fullname: 'Иван Иванов',
-          avatar: 'https://i.ytimg.com/vi/tmW-9sFy9mw/maxresdefault.jpg'
-        }
-      },
-      {
-        time: '15:30',
-        diagnosis: 'пульпит',
-        user: {
-          phone: '+7 (999) 331-22-40',
-          fullname: 'Вася Пупкин',
-          avatar: 'http://f4.24open.ru/SjgrfT1Nnp.jpg'
-        }
-      },
-      {
-        time: '18:00',
-        diagnosis: 'удаление зуба',
-        user: {
-          phone: '+7 (999) 748-22-40',
-          fullname: 'Иван Иванов',
-          avatar: 'https://i.ytimg.com/vi/tmW-9sFy9mw/maxresdefault.jpg'
-        }
-      }
-    ]
-  },
-  {
-    title: '16 сентября',
-    data: [
-      {
-        time: '15:30',
-        diagnosis: 'пульпит',
-        user: {
-          phone: '+7 (999) 748-22-40',
-          fullname: 'Вася Пупкин',
-          avatar: 'http://f4.24open.ru/SjgrfT1Nnp.jpg'
-        }
-      },
-      {
-        time: '18:00',
-        diagnosis: 'удаление зуба',
-        user: {
-          phone: '+7 (999) 748-22-40',
-          fullname: 'Иван Иванов',
-          avatar: 'https://i.ytimg.com/vi/tmW-9sFy9mw/maxresdefault.jpg'
-        }
-      },
-      {
-        time: '15:30',
-        diagnosis: 'пульпит',
-        user: {
-          phone: '+7 (999) 748-22-40',
-          fullname: 'Вася Пупкин',
-          avatar: 'http://f4.24open.ru/SjgrfT1Nnp.jpg'
-        }
-      },
-      {
-        time: '18:00',
-        diagnosis: 'удаление зуба',
-        user: {
-          phone: '+7 (999) 748-22-40',
-          fullname: 'Иван Иванов',
-          avatar: 'https://i.ytimg.com/vi/tmW-9sFy9mw/maxresdefault.jpg'
-        }
-      }
-    ]
-  }
-]
+const HomeScreen = ({ navigation }) => {
+  const [data, setData] = useState(null);
 
-const HomeScreen = ({ navigation }) => (
-  <Container>
-    <SectionList
-      sections={DATA}
-      keyExtractor={(item, index) => index}
-      renderItem={({ item }) => (
-        <Appointment navigate={navigation.navigate} item={item} />
-      )}
-      renderSectionHeader={({ section: { title } }) => (
-        <SectionTitle>{title}</SectionTitle>
-      )}
-    />
-    <PlusButton>
-      <Ionicons name="ios-add" size={36} color="white" />
-    </PlusButton>
-  </Container>
-);
+  useEffect(() => {
+    axios.get('https://trycode.pw/c/GE2ON.json').then(({ data }) => {
+      setData(data);
+    })
+  }, [])
+
+  return (
+    <Container>
+      <SectionList
+        sections={DATA}
+        keyExtractor={(item, index) => index}
+        renderItem={({ item }) => (
+          <Appointment navigate={navigation.navigate} item={item} />
+        )}
+        renderSectionHeader={({ section: { title } }) => (
+          <SectionTitle>{title}</SectionTitle>
+        )}
+      />
+      <PlusButton>
+        <Ionicons name="ios-add" size={36} color="white" />
+      </PlusButton>
+    </Container>
+  )
+}
 
 HomeScreen.navigationOptions = {
   title: 'Пациенты',
