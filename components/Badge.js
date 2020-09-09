@@ -26,8 +26,6 @@ const getColor = ({active, color}) => {
     result = colors.default
   }
 
-  console.log(result);
-
   return result;
 }
 
