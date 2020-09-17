@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { SectionList } from 'react-native';
+import { SectionList, Text } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import styled from 'styled-components/native';
 import axios from 'axios';
 
 import { Appointment, SectionTitle } from '../components'
+import SwipeRow from '../components/SwipeRow'
 
 const HomeScreen = ({ navigation }) => {
   const [data, setData] = useState(null);
@@ -22,7 +23,13 @@ const HomeScreen = ({ navigation }) => {
           sections={data}
           keyExtractor={(item, index) => index}
           renderItem={({ item }) => (
-            <Appointment navigate={navigation.navigate} item={item} />
+            <SwipeRow>
+              <SwipeView>
+                <Text>Left</Text>
+                <Text>Right</Text>
+              </SwipeView>
+              <Appointment navigate={navigation.navigate} item={item} />
+            </SwipeRow>
           )}
           renderSectionHeader={({ section: { title } }) => (
             <SectionTitle>{title}</SectionTitle>
@@ -44,6 +51,11 @@ HomeScreen.navigationOptions = {
     shadowOpacity: 0.8
   }
 }
+
+const SwipeView = styled.View`
+  width: 100px;
+  background-color: red;
+`;
 
 const PlusButton = styled.TouchableOpacity`
   align-items: center;
