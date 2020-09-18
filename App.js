@@ -19,6 +19,3 @@ const AppNavigator = createStackNavigator(
 )
 
 export default createAppContainer(AppNavigator);
-
-// Разработка стоматологического приложения на React Native #5 | 24:03 / 2:46:48
-

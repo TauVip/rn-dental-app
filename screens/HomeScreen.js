@@ -3,16 +3,17 @@ import { SectionList, Text } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import styled from 'styled-components/native';
 import axios from 'axios';
+import Swipeable from 'react-native-swipeable-row';
 
-import { Appointment, SectionTitle } from '../components'
-import SwipeRow from '../components/SwipeRow'
+import { Appointment, SectionTitle } from '../components';
+import { appointmentsApi } from '../utils/api'
 
 const HomeScreen = ({ navigation }) => {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    axios.get('https://trycode.pw/c/T4NUU.json').then(({ data }) => {
-      setData(data);
+    appointmentsApi.get().then(({ data }) => {
+      setData(data.data);
     })
   }, [])
 
@@ -23,13 +24,9 @@ const HomeScreen = ({ navigation }) => {
           sections={data}
           keyExtractor={(item, index) => index}
           renderItem={({ item }) => (
-            <SwipeRow>
-              <SwipeView>
-                <Text>Left</Text>
-                <Text>Right</Text>
-              </SwipeView>
-              <Appointment navigate={navigation.navigate} item={item} />
-            </SwipeRow>
+            <Swipeable rightButtons={[ <Text>Left</Text>, <Text>Right</Text> ]}>
+              <Appointment navigate={ navigation.navigate } item={ item } />
+            </Swipeable>
           )}
           renderSectionHeader={({ section: { title } }) => (
             <SectionTitle>{title}</SectionTitle>
@@ -51,11 +48,6 @@ HomeScreen.navigationOptions = {
     shadowOpacity: 0.8
   }
 }
-
-const SwipeView = styled.View`
-  width: 100px;
-  background-color: red;
-`;
 
 const PlusButton = styled.TouchableOpacity`
   align-items: center;
