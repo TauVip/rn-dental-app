@@ -1,21 +1,23 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 
 import GrayText from './GrayText';
 import Badge from './Badge'
 
 const Appoinment = ({ navigate, item }) => {
-  const { user, diagnosis, active, time } = item;
+  const { patient, diagnosis, active, time } = item;
   return (
     <GroupItem onPress={ navigate.bind(this, 'Patient', item)}>
       <Avatar
-        source={{
-          uri: user.avatar
+        style={{
+          backgroundColor: 'red'
         }}
-      />
+      >
+        <Letter>{ patient.fullname[0].toUpperCase() }</Letter>
+      </Avatar>
       <View style={{ flex: 1 }}>
-        <FullName>{ user.fullname }</FullName>
+        <FullName>{ patient.fullname }</FullName>
         <GrayText>{ diagnosis }</GrayText>
       </View>
       <Badge active={active}>{ time }</Badge>
@@ -28,12 +30,20 @@ Appoinment.defaultProps = {
   items: []
 }
 
+const Letter = styled.Text`
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+`;
+
 const FullName = styled.Text`
   font-weight: 600;
   font-size: 16px;
 `;
 
-const Avatar = styled.Image`
+const Avatar = styled.View`
+  align-items: center;
+  justify-content: center;
   border-radius: 50px;
   width: 40px;
   height: 40px;
