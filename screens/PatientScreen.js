@@ -1,58 +1,77 @@
-import React from 'react';
-import { View, Text } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, ActivityIndicator } from 'react-native';
 import styled from 'styled-components/native'
 import { Foundation, Ionicons } from '@expo/vector-icons';
 
-import { GrayText, Button, Badge } from '../components'
+import { GrayText, Button, Badge, Container } from '../components'
 
-const PatientScreen = ({ navigation }) => (
-  <View style={{ flex: 1 }}>
-    <PatientDetails>
-      <PatientFullName>{ navigation.getParam('user', {}).fullname }</PatientFullName>
-      <GrayText>{ navigation.getParam('user', {}).phone }</GrayText>
-      <PatientButtons>
-        <FormulaButtonView>
-          <Button>Формула зубов</Button>
-        </FormulaButtonView>
-        <PhoneButtonView>
-          <Button color="#84D269">
-            <Foundation name="telephone" size={22} color="white" />
-          </Button>
-        </PhoneButtonView>
-      </PatientButtons>
-    </PatientDetails>
+import { patientsApi } from '../utils/api';
 
-    <PatientAppointments>
-      <Container>
-        <AppointmentCard>
-          <MoreButton>
-            <Ionicons name="md-more" size={24} color="rgba(0, 0, 0, 0.4)" />
-          </MoreButton>
-          <AppointmentCardRow>
-            <Ionicons name="md-medical" size={16} color="#A3A3A3" />
-            <AppointmentCardLabel>
-              Зуб: <Text style={{ fontWeight: '600' }}>12</Text>
-            </AppointmentCardLabel>
-          </AppointmentCardRow>
-          <AppointmentCardRow>
-            <Foundation name="clipboard-notes" size={16} color="#A3A3A3" />
-            <AppointmentCardLabel>
-              Диагноз: <Text style={{ fontWeight: '600' }}>пульпит</Text>
-            </AppointmentCardLabel>
-          </AppointmentCardRow>
-          <AppointmentCardRow 
-            style={{ marginTop: 15, justifyContent: 'space-between' }}
-          >
-            <Badge style={{ width: 155 }} active>
-              11.10.2019 - 15:40
-            </Badge>
-            <Badge color="green">1500 P</Badge>
-          </AppointmentCardRow>
-        </AppointmentCard>
-      </Container>
-    </PatientAppointments>
-  </View>
-)
+const PatientScreen = ({ navigation }) => {
+  const [ appointments, setAppointments ] = useState([]);
+  const [ isLoading, setIsLoading ] = useState(true);
+
+  useEffect(() => {
+    const id = navigation.getParam('patient')._id;
+    patientsApi.show(id).then(({ data }) => {
+      setAppointments(data.data.appointments);
+      setIsLoading(false);
+    }).catch(() => {
+      setIsLoading(false);
+    })
+  }, []);
+
+  return (
+    <View style={{ flex: 1 }}>
+      <PatientDetails>
+        <PatientFullName>{ navigation.getParam('patient', {}).fullname }</PatientFullName>
+        <GrayText>{ navigation.getParam('patient', {}).phone }</GrayText>
+        <PatientButtons>
+          <FormulaButtonView>
+            <Button>Формула зубов</Button>
+          </FormulaButtonView>
+          <PhoneButtonView>
+            <Button color="#84D269">
+              <Foundation name="telephone" size={22} color="white" />
+            </Button>
+          </PhoneButtonView>
+        </PatientButtons>
+      </PatientDetails>
+
+      <PatientAppointments>
+        <Container>
+          { isLoading ? ( <ActivityIndicator size="large" color="#2A86FF" /> ) :
+            (appointments.map(appointment => 
+              <AppointmentCard key={appointments._id}>
+                <MoreButton>
+                  <Ionicons name="md-more" size={24} color="rgba(0, 0, 0, 0.4)" />
+                </MoreButton>
+                <AppointmentCardRow>
+                  <Ionicons name="md-medical" size={16} color="#A3A3A3" />
+                  <AppointmentCardLabel>
+                    Зуб: <Text style={{ fontWeight: '600' }}>{ appointment.dentNumber }</Text>
+                  </AppointmentCardLabel>
+                </AppointmentCardRow>
+                <AppointmentCardRow>
+                  <Foundation name="clipboard-notes" size={16} color="#A3A3A3" />
+                  <AppointmentCardLabel>
+                    Диагноз: <Text style={{ fontWeight: '600' }}>{ appointment.diagnosis }</Text>
+                  </AppointmentCardLabel>
+                </AppointmentCardRow>
+                <AppointmentCardRow style={{ marginTop: 15, justifyContent: 'space-between' }}>
+                  <Badge style={{ width: 155 }} active>
+                    { appointment.date } - { appointment.time }
+                  </Badge>
+                  <Badge color="green">{ appointment.price } P</Badge>
+                </AppointmentCardRow>
+              </AppointmentCard>
+            ))
+          }
+        </Container>
+      </PatientAppointments>
+    </View>
+  )
+}
 
 const MoreButton = styled.TouchableOpacity`
   justify-content: center;
@@ -77,17 +96,12 @@ const AppointmentCardRow = styled.View`
 `;
 
 const AppointmentCard = styled.View`
-  shadow-color: grey;
+  shadow-color: gray;
   elevation: 0.5;
   shadow-opacity: 0.4;
   shadow-radius: 10px;
   padding: 20px 25px;
   border-radius: 10px;
-`;
-
-const Container = styled.View`
-  padding: 25px;
-  flex: 1;
 `;
 
 const PatientDetails = styled(Container)`

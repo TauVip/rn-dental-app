@@ -2,7 +2,7 @@ import React from 'react';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 
-import { HomeScreen, PatientScreen } from './screens'
+import { AddPatientScreen, HomeScreen, PatientScreen } from './screens'
 
 const AppNavigator = createStackNavigator(
   {
@@ -11,6 +11,9 @@ const AppNavigator = createStackNavigator(
     },
     Patient: {
       screen: PatientScreen
+    },
+    AddPatient: {
+      screen: AddPatientScreen
     }
   },
   {
@@ -20,4 +23,4 @@ const AppNavigator = createStackNavigator(
 
 export default createAppContainer(AppNavigator);
 
-// Разработка стоматологического приложения на React Native #5 | 1:30:51 / 2:46:48
+// Разработка стоматологического приложения на React Native #6 | 42:38 / 2:31:26

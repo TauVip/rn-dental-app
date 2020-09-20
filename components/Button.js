@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components/native';
 
-const Button = ({ children, color }) => (
-  <ButtonWrapper color={ color }>
+const Button = ({ children, color, onPress }) => (
+  <ButtonWrapper onPress={ onPress } color={ color }>
     <ButtonText>{ children }</ButtonText>
   </ButtonWrapper>
 )

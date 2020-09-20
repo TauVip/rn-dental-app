@@ -1,20 +1,23 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 
 import GrayText from './GrayText';
 import Badge from './Badge'
 
+import getAvatarColor from '../utils/getAvatarColor'
+
 const Appoinment = ({ navigate, item }) => {
   const { patient, diagnosis, active, time } = item;
+  const avatarColors = getAvatarColor(patient.fullname[0].toUpperCase())
   return (
     <GroupItem onPress={ navigate.bind(this, 'Patient', item)}>
       <Avatar
         style={{
-          backgroundColor: 'red'
+          backgroundColor: avatarColors.background
         }}
       >
-        <Letter>{ patient.fullname[0].toUpperCase() }</Letter>
+        <Letter style={{ color: avatarColors.color }}>{ patient.fullname[0].toUpperCase() }</Letter>
       </Avatar>
       <View style={{ flex: 1 }}>
         <FullName>{ patient.fullname }</FullName>
@@ -31,9 +34,9 @@ Appoinment.defaultProps = {
 }
 
 const Letter = styled.Text`
-  color: white;
   font-size: 20px;
   font-weight: bold;
+  margin-top: -1px;
 `;
 
 const FullName = styled.Text`
