@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, ActivityIndicator } from 'react-native';
+import { View, Text, ActivityIndicator, Linking } from 'react-native';
 import styled from 'styled-components/native'
 import { Foundation, Ionicons } from '@expo/vector-icons';
 
-import { GrayText, Button, Badge, Container } from '../components'
+import { GrayText, Button, Badge, Container, PlusButton } from '../components'
 
 import { patientsApi } from '../utils/api';
 
@@ -31,7 +31,9 @@ const PatientScreen = ({ navigation }) => {
             <Button>Формула зубов</Button>
           </FormulaButtonView>
           <PhoneButtonView>
-            <Button color="#84D269">
+            <Button
+              onPress={() => Linking.openURL('tel:' + navigation.getParam('patient', {}).phone)}
+              color="#84D269">
               <Foundation name="telephone" size={22} color="white" />
             </Button>
           </PhoneButtonView>
@@ -69,6 +71,7 @@ const PatientScreen = ({ navigation }) => {
           }
         </Container>
       </PatientAppointments>
+      <PlusButton onPress={navigation.navigate.bind(this, 'AddAppointment')} />
     </View>
   )
 }
@@ -102,6 +105,7 @@ const AppointmentCard = styled.View`
   shadow-radius: 10px;
   padding: 20px 25px;
   border-radius: 10px;
+  margin-bottom: 20px;
 `;
 
 const PatientDetails = styled(Container)`

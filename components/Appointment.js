@@ -9,7 +9,7 @@ import getAvatarColor from '../utils/getAvatarColor'
 
 const Appoinment = ({ navigate, item }) => {
   const { patient, diagnosis, active, time } = item;
-  const avatarColors = getAvatarColor(patient.fullname[0].toUpperCase())
+  const avatarColors = getAvatarColor(patient.fullname[0].toUpperCase());
   return (
     <GroupItem onPress={ navigate.bind(this, 'Patient', item)}>
       <Avatar
